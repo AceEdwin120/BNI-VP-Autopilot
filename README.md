@@ -1,5 +1,9 @@
 # BNI-Masta
 
+<p align="center">
+  <img src="assets/hero-banner.png" alt="自動化的BNI副主席 — BNI Vice President Autopilot" width="600">
+</p>
+
 > **作者：馬驊（Alex）**　·　BNI <YourChapter> 副主席　·　[蟬說](https://www.chanshuo.tw/) 創辦人　·　[痛點科技](https://painpoint-ai.com/) 創辦人  
 > **Created by Alex Ma (馬驊)** — BNI <YourChapter> Vice President · Founder of [Chanshuo (蟬說)](https://www.chanshuo.tw/) · Founder of [PainPoint Tech (痛點科技)](https://painpoint-ai.com/)
 
