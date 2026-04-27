@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "updated": "2026-04-27",
+  "personal_target_groups": ["<YourCommunityGroup>"],
+  "bot_target_group_ids": ["<your-line-group-id>"],
+  "_v3_changes": "v3 (daily cadence): bot leg → '<YourTestGroup>' (3-person test group, ID <your-line-group-id-1>); personal/CU leg → '<YourCommunityGroup>' (a LINE <YourCommunityGroup> / open community of 206 members; bot account cannot join <YourCommunityGroup> by LINE policy, so personal LINE via Computer Use is the delivery path). Per operator decision 2026-04-27 — keep <YourChapterMainGroup> (<your-line-group-id>, 31p main chapter group) OUT of test config to avoid disturbing the chapter at 1:39am; the production env var LINE_TARGET_GROUP_IDS in ~/.openclaw/secrets/bni-masta.env should hold both group IDs (<your-line-group-id-1> + <your-line-group-id-2>) when the launchd schedule is activated.",
+  "_production_target_group_ids_for_reference": {
+    "<YourTestGroup>": "<your-line-group-id>",
+    "<YourChapterMainGroup>": "<your-line-group-id>"
+  },
+  "_note": "Loaded only when broadcast.mjs is invoked with --test-targets. Display name '<YourCommunityGroup>' must match the <YourCommunityGroup> name in the operator's personal LINE for Mac exactly (Computer Use uses substring search). The (206) member-count suffix shown in LINE.app is NOT part of the name. Bot LINE group IDs require uppercase 'C' first char — sessions.json lower-cases them but the API rejects lowercase."
+}

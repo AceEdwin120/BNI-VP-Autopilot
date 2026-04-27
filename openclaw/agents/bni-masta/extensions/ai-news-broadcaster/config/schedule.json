@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "updated": "2026-04-27",
+  "_doc": "v3.2 (2026-04-27): switched <YourChapterMainGroup> from bot-leg to CU-leg because the LINE Messaging API monthly quota (`limited` plan, 200 messages/month) was exhausted. Both CU targets are now in stage 2 — broadcast.mjs writes ONE plan file with `targets: [<YourCommunityGroup>, <YourChapterMainGroup>]` (in delivery order); the Anthropic scheduled task `ai-news-cu-primary` delivers to both sequentially. Order preserved: <YourTestGroup> (09:00 bot) → <YourCommunityGroup> (~09:14 CU) → <YourChapterMainGroup> (~09:14+5s CU). Times are Taipei wall-clock.",
+  "deliveries": [
+    {
+      "stage": 1,
+      "fire_at_taipei": "09:00",
+      "channel": "bot",
+      "group_id": "<your-line-group-id>",
+      "name": "<YourTestGroup>",
+      "_role": "Canary — only bot self-push remaining; very cheap (1 push / day to a 3-person test group)"
+    },
+    {
+      "stage": 2,
+      "fire_at_taipei": "09:05",
+      "channel": "cu",
+      "display_names": [
+        "<YourCommunityGroup>",
+        "<YourChapterMainGroup>"
+      ],
+      "_role": "Both CU groups. Scheduled task `ai-news-cu-primary` (cron `5 9 * * *` → dispatched ~09:13) reads the plan and delivers to display_names[] in order via Computer Use. <YourCommunityGroup> first (<YourCommunityGroup>, bot can't enter); <YourChapterMainGroup> second (was bot-leg, now CU after LINE quota exhaustion 2026-04-27). Single plan file: `<run_id>.personal_line_plan.json`."
+    }
+  ],
+  "retry": {
+    "bot_push_attempts": 3,
+    "bot_push_backoff_ms": [2000, 8000, 30000],
+    "_doc": "Each bot leg push retries up to 3 times. With only 1 bot stage now (<YourTestGroup>), the LINE quota burn from a single failed run is at most 3 × 1 = 3 calls."
+  }
+}

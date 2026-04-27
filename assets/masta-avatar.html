@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>BNI-Masta</title>
+  <style>
+    /* Recall webpage-kind renders at a fixed viewport. Set explicit 1280x720
+       (16:9) so our layout is predictable. */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 1280px;
+      height: 720px;
+      background: #0b1a2a;
+      overflow: hidden;
+      font-family: -apple-system, "PingFang TC", sans-serif;
+    }
+    .frame {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(240,192,96,0.15), transparent 60%),
+        linear-gradient(135deg, #0b1a2a 0%, #1e2d44 100%);
+    }
+    img {
+      width: 520px;
+      height: 520px;
+      object-fit: cover;
+      border-radius: 32px;
+      box-shadow: 0 12px 50px rgba(0,0,0,.6);
+      border: 6px solid #f0c060;
+    }
+    .label {
+      position: absolute;
+      bottom: 48px;
+      left: 0; right: 0;
+      text-align: center;
+      color: #f0c060;
+      font-weight: 700;
+      font-size: 44px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 8px rgba(0,0,0,.7);
+    }
+    .sub {
+      position: absolute;
+      top: 40px;
+      left: 0; right: 0;
+      text-align: center;
+      color: #ffffff;
+      font-size: 28px;
+      opacity: 0.9;
+      letter-spacing: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="sub">BNI｜<YourChapter></div>
+    <img src="masta-avatar.png" alt="BNI-Masta">
+    <div class="label">🦁 BNI-Masta ｜ 副主席的 AI 助理</div>
+  </div>
+</body>
+</html>

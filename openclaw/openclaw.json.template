@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.13",
+    "lastTouchedAt": "2026-04-04T03:24:59.991Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-10T17:48:24.696Z",
+    "lastRunVersion": "2026.2.6-3",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "auth": {
+    "profiles": {
+      "openai-codex:default": {
+        "provider": "openai-codex",
+        "mode": "oauth"
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openai-codex/gpt-5.4"
+      },
+      "models": {
+        "anthropic/claude-sonnet-4-20250514": {},
+        "anthropic/claude-opus-4-20250514": {},
+        "openai-codex/gpt-5.4": {}
+      },
+      "workspace": "<your-workspace>",
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "6h",
+        "keepLastAssistants": 3
+      },
+      "compaction": {
+        "mode": "default",
+        "reserveTokensFloor": 40000,
+        "memoryFlush": {
+          "enabled": true,
+          "softThresholdTokens": 40000,
+          "prompt": "Distill this session to memory/YYYY-MM-DD.md. Focus on decisions, state changes, lessons, blockers. If nothing worth storing: NO_FLUSH",
+          "systemPrompt": "Extract only what is worth remembering. No fluff."
+        }
+      },
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    },
+    "list": [
+      {
+        "id": "main"
+      },
+      {
+        "id": "bni-masta",
+        "name": "BNI-Masta 🦁",
+        "workspace": "<your-vault-path>",
+        "agentDir": "~/.openclaw/agents/bni-masta/agent",
+        "model": {
+          "primary": "openai-codex/gpt-5.4"
+        }
+      }
+    ]
+  },
+  "tools": {
+    "web": {
+      "search": {
+        "enabled": true,
+        "provider": "brave",
+        "maxResults": 5,
+        "timeoutSeconds": 10,
+        "cacheTtlMinutes": 30,
+        "apiKey": "<BRAVE_API_KEY>"
+      },
+      "fetch": {
+        "enabled": true
+      }
+    },
+    "agentToAgent": {
+      "enabled": true
+    }
+  },
+  "bindings": [
+    {
+      "type": "route",
+      "agentId": "bni-masta",
+      "match": {
+        "channel": "telegram",
+        "accountId": "bnimasta"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "bni-masta",
+      "match": {
+        "channel": "line"
+      }
+    }
+  ],
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer",
+    "reset": {
+      "mode": "daily",
+      "atHour": 4,
+      "idleMinutes": 120
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "pairing",
+      "botToken": "<TELEGRAM_DEFAULT_BOT_TOKEN>",
+      "groups": {
+        "<your-telegram-group-id-1>": {},
+        "<your-telegram-group-id-2>": {},
+        "<your-telegram-group-id-3>": {}
+      },
+      "allowFrom": [
+        "<your-telegram-chat-id>"
+      ],
+      "groupPolicy": "allowlist",
+      "streaming": "partial",
+      "accounts": {
+        "default": {
+          "name": "<your-other-bot-name>",
+          "dmPolicy": "pairing",
+          "groupPolicy": "allowlist",
+          "streaming": "partial"
+        },
+        "bnimasta": {
+          "name": "BNI-Masta Bot",
+          "dmPolicy": "pairing",
+          "botToken": "<TELEGRAM_BOT_TOKEN>",
+          "allowFrom": [
+            "<your-telegram-chat-id>"
+          ],
+          "groupPolicy": "allowlist",
+          "streaming": "partial"
+        }
+      }
+    },
+    "slack": {
+      "mode": "socket",
+      "webhookPath": "/slack/events",
+      "enabled": true,
+      "botToken": "<SLACK_BOTTOKEN>",
+      "appToken": "<SLACK_APPTOKEN>",
+      "userTokenReadOnly": true,
+      "groupPolicy": "open",
+      "streaming": "partial",
+      "nativeStreaming": true
+    },
+    "line": {
+      "enabled": true,
+      "channelSecret": "<LINE_CHANNEL_SECRET>",
+      "channelAccessToken": "<LINE_CHANNEL_ACCESS_TOKEN>",
+      "webhookPath": "/line/webhook",
+      "dmPolicy": "open",
+      "allowFrom": [
+        "*"
+      ]
+    }
+  },
+  "gateway": {
+    "port": 18801,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "<GATEWAY_TOKEN>"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    }
+  },
+  "plugins": {
+    "allow": [
+      "line",
+      "telegram",
+      "slack"
+    ],
+    "entries": {
+      "telegram": {
+        "enabled": true
+      },
+      "slack": {
+        "enabled": true
+      },
+      "line": {
+        "enabled": true
+      }
+    }
+  }
+}

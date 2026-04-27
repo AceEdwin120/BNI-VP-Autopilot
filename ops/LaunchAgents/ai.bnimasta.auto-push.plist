@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>ai.bnimasta.auto-push</string>
+    <key>Comment</key>
+    <string>Nightly sync of live BNI-Masta agent state into the GitHub repo and push to main. Runs 02:30 local (before backup at 03:00).</string>
+    <key>StartCalendarInterval</key>
+    <dict>
+      <key>Hour</key><integer>2</integer>
+      <key>Minute</key><integer>30</integer>
+    </dict>
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>PATH</key>
+      <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+      <key>HOME</key>
+      <string>~</string>
+    </dict>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/bin/bash</string>
+      <string>~/.openclaw/agents/bni-masta/scripts/auto-push.sh</string>
+    </array>
+    <key>StandardOutPath</key>
+    <string>~/.openclaw/agents/bni-masta/scripts/auto-push.stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>~/.openclaw/agents/bni-masta/scripts/auto-push.stderr.log</string>
+    <key>RunAtLoad</key>
+    <false/>
+  </dict>
+</plist>

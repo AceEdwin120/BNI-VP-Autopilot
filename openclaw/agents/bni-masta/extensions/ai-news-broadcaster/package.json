@@ -1,0 +1,11 @@
+{
+  "name": "@bni-masta/ai-news-broadcaster",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Additive AI News Broadcaster feature for BNI Masta. See MANIFEST.md.",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.91.1",
+    "apify-client": "^2.23.0"
+  }
+}

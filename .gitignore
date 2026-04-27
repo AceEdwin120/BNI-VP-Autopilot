@@ -1,0 +1,47 @@
+# Secrets — never commit
+.env
+.env.local
+.env.*.local
+*.env
+secrets/
+auth-profiles/
+
+# Per-machine state
+.DS_Store
+node_modules/
+*.log
+*.stderr.log
+*.stdout.log
+/tmp/
+
+# Vault private content — never commit
+vault/raw/
+vault/wiki/members/
+vault/wiki/meetings/
+vault/wiki/chapters/
+vault/wiki/events/
+vault/wiki/reports/
+vault/.obsidian/workspace*.json
+vault/.obsidian/cache
+
+# Cloudflared tunnel credentials
+*.cloudflared/
+*-credentials.json
+
+# Node / Python
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
+.vscode/
+
+# Archive tarballs
+Archive/
+
+# Claude Code per-project state
+.claude/
+
+vault/wiki/meeting_reports/

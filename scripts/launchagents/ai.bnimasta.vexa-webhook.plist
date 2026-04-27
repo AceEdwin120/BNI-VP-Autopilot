@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>ai.bnimasta.vexa-webhook</string>
+    <key>Comment</key>
+    <string>Vexa webhook receiver for BNI-Masta (listens on 127.0.0.1:18821)</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>VEXA_WEBHOOK_PORT</key>
+      <string>18821</string>
+      <key>PATH</key>
+      <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/opt/homebrew/bin/node</string>
+      <string>~/.openclaw/agents/bni-masta/services/vexa-webhook.mjs</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>~/.openclaw/agents/bni-masta/services</string>
+    <key>StandardOutPath</key>
+    <string>~/.openclaw/agents/bni-masta/services/vexa-webhook.stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>~/.openclaw/agents/bni-masta/services/vexa-webhook.stderr.log</string>
+  </dict>
+</plist>

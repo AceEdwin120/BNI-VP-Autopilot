@@ -1,0 +1,10 @@
+{
+  "name": "bni-masta-services",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "recall": "node vexa-webhook.mjs",
+    "recall:dev": "node --watch vexa-webhook.mjs"
+  }
+}

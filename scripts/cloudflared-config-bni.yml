@@ -1,0 +1,11 @@
+tunnel: <your-tunnel-uuid>
+credentials-file: ~/.cloudflared/<your-tunnel-uuid>.json
+
+ingress:
+  # Same hostname, different path prefixes
+  - hostname: <your-webhook-host>
+    path: /assets/.*
+    service: http://localhost:18822
+  - hostname: <your-webhook-host>
+    service: http://localhost:18821
+  - service: http_status:404

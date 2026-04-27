@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  AI News Broadcaster — LaunchAgent plist (Stage 7).
+
+  Schedule strategy: "fire daily at 09:00 Taipei + state-file gate"
+  ──────────────────────────────────────────────────────────────────
+  macOS LaunchAgents have NO native "every N days" trigger. The two
+  practical options are:
+
+    (a) List 15 specific calendar days for the next year inside an
+        array of <StartCalendarInterval> entries, and re-list every
+        year. Brittle: drifts after machine sleep, doesn't self-heal,
+        needs annual maintenance, and re-installs reset the cycle.
+
+    (b) Fire daily at 09:00 → invoke a wrapper script that checks a
+        state file in the vault. The wrapper runs broadcast.mjs ONLY
+        if at least 20 hours have passed since the last successful
+        run (v3 cadence: daily — 20h is the smallest interval that
+        absorbs DST + sleep-recovery without permitting same-day
+        double-fires). On a successful run the wrapper writes today's
+        date into <vault>/logs/ai_news/last_run_date; subsequent
+        sub-20-hour wake-ups exit cleanly without doing anything.
+
+  We picked (b) because it self-heals across machine sleep, daylight-
+  savings transitions, missed wake-ups, and re-installs. The plist below
+  is therefore a plain daily 09:00 trigger; the wrapper (run-if-due.sh)
+  decides go/no-go.
+
+  Standard out/err go to <vault>/logs/ai_news/launchd-{out,err}.log.
+  Secrets are loaded by the wrapper from ~/.openclaw/secrets/bni-masta.env
+  rather than baked into the plist (so the plist is safe to commit).
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.bni-masta.ai-news</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string><repo-path>/openclaw/agents/bni-masta/extensions/ai-news-broadcaster/scheduling/run-if-due.sh</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string><repo-path>/openclaw/agents/bni-masta/extensions/ai-news-broadcaster</string>
+
+  <!--
+    Daily-fire trigger. The wrapper (run-if-due.sh) gates the actual
+    broadcast.mjs invocation on a 20-hour state-file check (v3 cadence).
+  -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>9</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>KeepAlive</key>
+  <false/>
+
+  <!--
+    Logs go under the vault's logs/ai_news/ subtree (same convention
+    as every other artifact this extension writes — see MANIFEST §7).
+    Hard-coded path here matches the production vault root; if the
+    vault root moves, update this plist + run-if-due.sh + the
+    extension's vault-root resolution at the same time.
+  -->
+  <key>StandardOutPath</key>
+  <string><vault-path>/logs/ai_news/launchd-out.log</string>
+
+  <key>StandardErrorPath</key>
+  <string><vault-path>/logs/ai_news/launchd-err.log</string>
+
+  <!--
+    Minimal env. Secrets are loaded inside the wrapper from
+    ~/.openclaw/secrets/bni-masta.env so we never commit them here.
+    PATH is set so /usr/local/bin/node and Homebrew-installed Node
+    resolve correctly when launchd invokes us with a stripped env.
+  -->
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    <key>HOME</key>
+    <string>~</string>
+    <key>TZ</key>
+    <string>Asia/Taipei</string>
+  </dict>
+</dict>
+</plist>
