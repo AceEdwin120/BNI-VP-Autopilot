@@ -81,16 +81,6 @@ See [RUNBOOK.md](RUNBOOK.md) for full host provisioning. Short version:
 
 ## License
 
-[**CC BY-NC 4.0**](LICENSE) — Creative Commons Attribution-NonCommercial 4.0.
+[**Apache License 2.0**](LICENSE) — fork freely. Attribution required: keep the [NOTICE](NOTICE) file and the copyright/attribution headers in derivative works (per Apache 2.0 §4(c)(d)). Includes patent grant (§3) and trademark clause (§6 — does not grant rights to use the "BNI-Masta" name or the original creator's brands).
 
-**You may:**
-- Fork, modify, and run this for your own BNI chapter or any other personal / educational / internal use
-- Share modifications with other 副主席s under the same license
-
-**You may NOT:**
-- Use it commercially — no selling as SaaS, no integrating into a paid product, no using to generate revenue
-- Strip attribution to the original creator (馬驊 / [蟬說](https://www.chanshuo.tw/) / [痛點科技](https://painpoint-ai.com/))
-
-**Attribution requirement:** if you publish or share a fork, keep the [LICENSE](LICENSE) file and link back to this repo with credit to Alex Ma (馬驊). Indicate what you changed.
-
-Want a commercial license? Contact the creator at [蟬說](https://www.chanshuo.tw/) / [痛點科技](https://painpoint-ai.com/).
+Attribution back to 馬驊 / [蟬說](https://www.chanshuo.tw/) / [痛點科技](https://painpoint-ai.com/) is built into [NOTICE](NOTICE) and required by §4(d) when redistributing a fork.

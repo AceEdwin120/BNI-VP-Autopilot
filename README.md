@@ -101,7 +101,7 @@
 - **架構圖 + 資料流**：[ARCHITECTURE.md](ARCHITECTURE.md)
 - **新 Claude session 上手**：[CLAUDE.md](CLAUDE.md)
 - **完整框架文件**：[docs/framework-documentation-prompt.md](docs/framework-documentation-prompt.md)
-- **License**：[CC BY-NC 4.0](LICENSE)（**禁止商業使用** + 必須署名 + 註明修改；個人 / 教育 / 內部使用 OK）
+- **License**：[Apache 2.0](LICENSE) · 開放使用，但需保留 [NOTICE](NOTICE) 與作者署名（含專利授權條款）
 
 ### 不在這個 repo 裡的東西
 
