@@ -43,6 +43,9 @@ TARGET_FILES = [
     "services/lib/claude-responder.mjs",
     "services/lib/qa-cache.mjs",
     "services/lib/roster-match.mjs",
+    "services/lib/recall-chat.mjs",
+    "services/lib/quote-bank.mjs",
+    "services/lib/s2t.mjs",
 ]
 
 
@@ -172,7 +175,10 @@ def main():
                 print(f"  · skip (exists): {rel}")
             else:
                 dst_file.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(src_file, dst_file)
+                try:
+                    shutil.copy2(src_file, dst_file)
+                except PermissionError:
+                    shutil.copy(src_file, dst_file)
                 print(f"  ✓ seeded: {rel}")
     else:
         print(f"  ⚠ vault/ not found in repo at {vault_src}")

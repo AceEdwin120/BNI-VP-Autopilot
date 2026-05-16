@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 # 取代 macOS LaunchAgent ai.bnimasta.recall-webhook.plist (KeepAlive=true)
-ExecStart=%h/.linuxbrew/bin/node %h/.openclaw/agents/bni-masta/services/recall-webhook.mjs
+ExecStart=/home/linuxbrew/.linuxbrew/bin/node %h/.openclaw/agents/bni-masta/services/recall-webhook.mjs
 WorkingDirectory=%h/.openclaw/agents/bni-masta/services
 EnvironmentFile=-%h/.openclaw/secrets/bni-masta.env
 Environment=RECALL_WEBHOOK_PORT=18821

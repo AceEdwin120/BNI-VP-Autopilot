@@ -57,9 +57,14 @@ fi
 echo ""
 echo "── Step 3：安裝依賴套件（brew）──"
 brew install --quiet \
-    openclaw cloudflared node python jq \
+    cloudflared node python jq \
     poppler ffmpeg uv gh
-echo "  ✓ 所有套件安裝完成"
+echo "  ✓ brew 套件安裝完成"
+
+echo ""
+echo "── Step 3b：安裝 OpenClaw（npm，跨平台版本）──"
+npm install -g openclaw@latest --silent
+echo "  ✓ OpenClaw 安裝完成"
 
 # ── Step 4：安裝 Python 工具 ──────────────────────────────────────────────
 echo ""

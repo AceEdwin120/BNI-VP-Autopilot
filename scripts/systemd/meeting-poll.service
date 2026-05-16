@@ -6,7 +6,7 @@ After=network.target
 Type=oneshot
 # 取代 macOS LaunchAgent ai.bnimasta.meeting-poll.plist (StartInterval=60)
 # 由 meeting-poll.timer 每 60 秒觸發一次
-ExecStart=%h/.linuxbrew/bin/node %h/.openclaw/agents/bni-masta/agent/skills/meeting-poll/poll.mjs
+ExecStart=/home/linuxbrew/.linuxbrew/bin/node %h/.openclaw/agents/bni-masta/agent/skills/meeting-poll/poll.mjs
 EnvironmentFile=-%h/.openclaw/secrets/bni-masta.env
 StandardOutput=append:%h/.openclaw/agents/bni-masta/agent/skills/meeting-poll/poll.stdout.log
 StandardError=append:%h/.openclaw/agents/bni-masta/agent/skills/meeting-poll/poll.stderr.log
