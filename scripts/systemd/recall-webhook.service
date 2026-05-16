@@ -1,0 +1,18 @@
+[Unit]
+Description=BNI-Masta Recall.ai Webhook Receiver (port 18821)
+After=network.target
+
+[Service]
+Type=simple
+# 取代 macOS LaunchAgent ai.bnimasta.recall-webhook.plist (KeepAlive=true)
+ExecStart=%h/.linuxbrew/bin/node %h/.openclaw/agents/bni-masta/services/recall-webhook.mjs
+WorkingDirectory=%h/.openclaw/agents/bni-masta/services
+EnvironmentFile=-%h/.openclaw/secrets/bni-masta.env
+Environment=RECALL_WEBHOOK_PORT=18821
+Restart=always
+RestartSec=5
+StandardOutput=append:%h/.openclaw/agents/bni-masta/services/recall-webhook.stdout.log
+StandardError=append:%h/.openclaw/agents/bni-masta/services/recall-webhook.stderr.log
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=BNI-Masta Meeting Poll Timer（每 60 秒執行一次）
+Requires=meeting-poll.service
+
+[Timer]
+# 取代 macOS LaunchAgent StartInterval=60
+OnActiveSec=10
+OnUnitInactiveSec=60
+Unit=meeting-poll.service
+AccuracySec=5
+
+[Install]
+WantedBy=timers.target

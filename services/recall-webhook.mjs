@@ -20,6 +20,7 @@
 import { createServer } from "node:http";
 import { appendFileSync, mkdirSync, readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import { homedir } from "node:os";
 import {
   handleBotJoin, handleParticipantJoinOrRename, handleChatMessage,
   tryDiscoverParticipant,
@@ -27,7 +28,7 @@ import {
 import { s2t } from "./lib/s2t.mjs";
 
 // Load secrets env so libs can access RECALL_API_KEY / region / etc.
-const SECRETS_ENV = "~/.openclaw/secrets/bni-masta.env";
+const SECRETS_ENV = join(homedir(), ".openclaw/secrets/bni-masta.env");
 if (existsSync(SECRETS_ENV)) {
   for (const line of readFileSync(SECRETS_ENV, "utf8").split("\n")) {
     const m = line.match(/^([A-Z_][A-Z0-9_]*)=(.*)$/);

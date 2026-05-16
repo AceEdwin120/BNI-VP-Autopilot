@@ -7,9 +7,10 @@
 import { execFileSync, spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync, appendFileSync, statSync } from "node:fs";
 import { basename, dirname, join } from "node:path";
+import { homedir } from "node:os";
 import { s2t, s2tDeep } from "../../../services/lib/s2t.mjs";
 
-const SECRETS_ENV = "~/.openclaw/secrets/bni-masta.env";
+const SECRETS_ENV = join(homedir(), ".openclaw/secrets/bni-masta.env");
 function loadEnvFile(p) {
   if (!existsSync(p)) return;
   for (const line of readFileSync(p, "utf8").split("\n")) {
@@ -24,7 +25,7 @@ const MEETINGS = join(VAULT, "raw/meetings");
 const REGION = process.env.RECALL_REGION || "ap-northeast-1";
 const API = `https://${REGION}.recall.ai`;
 const KEY = process.env.RECALL_API_KEY;
-const SKILL_DIR = "~/.openclaw/agents/bni-masta/agent/skills";
+const SKILL_DIR = join(homedir(), ".openclaw/agents/bni-masta/agent/skills");
 
 if (!KEY) { console.error("RECALL_API_KEY not set"); process.exit(2); }
 if (!existsSync(MEETINGS)) { console.log("no raw/meetings/ yet"); process.exit(0); }
@@ -168,32 +169,32 @@ async function processBot({ botId, date, dir, manifestPath }) {
 
   // Run the downstream pipeline
   console.log(`  · bot ${botId} · running resolve-attendance…`);
-  const r1 = runSkill("/opt/homebrew/bin/node", [join(SKILL_DIR, "resolve-attendance/resolve.mjs"), date]);
+  const r1 = runSkill(process.execPath, [join(SKILL_DIR, "resolve-attendance/resolve.mjs"), date]);
   console.log(`  · bot ${botId} · running ingest-claude…`);
   const r2 = runSkill("/bin/bash", [join(SKILL_DIR, "ingest-claude/compile.sh"), `raw/meetings/${date}`]);
   console.log(`  · bot ${botId} · running meeting-report…`);
   const r3 = runSkill("/bin/bash", [join(SKILL_DIR, "meeting-report/report.sh"), date]);
   console.log(`  · bot ${botId} · running attendance-to-sheet…`);
-  const r4 = runSkill("/opt/homebrew/bin/node", [join(SKILL_DIR, "attendance-to-sheet/update.mjs"), date]);
+  const r4 = runSkill(process.execPath, [join(SKILL_DIR, "attendance-to-sheet/update.mjs"), date]);
   // Push updated member front-matter into <YourChapter>會員名單 + 紅綠燈 tabs immediately
   // (so 紅綠燈 scores reflect this meeting without waiting for Sunday cron)
   console.log(`  · bot ${botId} · running roster-sync --push-only…`);
-  const r5 = runSkill("/opt/homebrew/bin/node", [join(SKILL_DIR, "roster-sync/sync.mjs"), "--push-only"]);
+  const r5 = runSkill(process.execPath, [join(SKILL_DIR, "roster-sync/sync.mjs"), "--push-only"]);
   // Telegram digest to the operator — Friday-only by default; skill self-skips other days.
   // Idempotent per bot; failure does NOT block the chain (other steps already done).
   console.log(`  · bot ${botId} · running post-meeting-digest…`);
-  const r6 = runSkill("/opt/homebrew/bin/node", [join(SKILL_DIR, "post-meeting-digest/digest.mjs"), date, botId]);
+  const r6 = runSkill(process.execPath, [join(SKILL_DIR, "post-meeting-digest/digest.mjs"), date, botId]);
   // (post-meeting-line-digest disabled — superseded by meeting-deck-report below,
   //  which sends a richer stats summary + Drive PDF link in one push.)
   const r7 = true;
   // Detailed per-member report (rename history + speech log + Haiku summaries)
   // → vault md + 會議詳情 sheet row + Speech Log sheet rows. Runs every meeting.
   console.log(`  · bot ${botId} · running detailed-meeting-report…`);
-  const r8 = runSkill("/opt/homebrew/bin/node", [join(SKILL_DIR, "detailed-meeting-report/detailed.mjs"), date, botId]);
+  const r8 = runSkill(process.execPath, [join(SKILL_DIR, "detailed-meeting-report/detailed.mjs"), date, botId]);
   // HTML+PDF deck → Google Drive (anyone-reader) → 2 LINE messages (stats + link).
   // Friday-only by default. Depends on r8's detailed.md output.
   console.log(`  · bot ${botId} · running meeting-deck-report…`);
-  const r9 = runSkill("/opt/homebrew/bin/node", [join(SKILL_DIR, "meeting-deck-report/deck.mjs"), date, botId]);
+  const r9 = runSkill(process.execPath, [join(SKILL_DIR, "meeting-deck-report/deck.mjs"), date, botId]);
   writeFileSync(join(dir, `${botId}.done`), JSON.stringify({
     processed_at: new Date().toISOString(),
     resolve_ok: r1, ingest_ok: r2, report_ok: r3, sheet_ok: r4,

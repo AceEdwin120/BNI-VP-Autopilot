@@ -1,0 +1,16 @@
+[Unit]
+Description=Cloudflare Tunnel — BNI webhook (→ localhost:18821)
+After=network.target recall-webhook.service
+
+[Service]
+Type=simple
+# 取代 macOS LaunchAgent com.cloudflare.bni-webhook-tunnel.plist (KeepAlive=true)
+# 確認 ~/.cloudflared/config-bni.yml 存在並填入正確的 tunnel UUID 與 hostname
+ExecStart=/home/linuxbrew/.linuxbrew/bin/cloudflared tunnel --config %h/.cloudflared/config-bni.yml run
+Restart=always
+RestartSec=10
+StandardOutput=append:%h/.openclaw/logs/cloudflared-bni.stdout.log
+StandardError=append:%h/.openclaw/logs/cloudflared-bni.stderr.log
+
+[Install]
+WantedBy=default.target
